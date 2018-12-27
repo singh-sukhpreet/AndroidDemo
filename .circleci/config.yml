@@ -47,4 +47,4 @@ jobs:
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U `sudo gsutil ls gs://mytaxi/test | tail -1` ${CIRCLE_ARTIFACTS}/ | true   
-
+ 
