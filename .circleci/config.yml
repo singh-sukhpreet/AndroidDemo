@@ -38,7 +38,8 @@ jobs:
           name: Test with Firebase Test Lab
           command: >
             sudo gcloud firebase test android run
-              --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk
+              --type instrumentation
+              --app app/build/outputs/apk/debug/app-debug.apk
               --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
               --device model=Nexus9,version=25 --use-orchestrator
       - run:
@@ -46,4 +47,4 @@ jobs:
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U `sudo gsutil ls gs://mytaxi/test | tail -1` ${CIRCLE_ARTIFACTS}/ | true   
-     
+
