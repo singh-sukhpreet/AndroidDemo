@@ -4,6 +4,7 @@ jobs:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-25-alpha
+      - image: circleci/android:api-28-alpha 
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -20,11 +21,8 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-  test:
-    docker:
-      - image: circleci/android:api-28-alpha  # gcloud is baked into this image
-    steps:
-      - run:
+  
+     - run:
           name: Build debug APK and release APK
           command: |
             ./gradlew :app:assembleDebug
@@ -73,4 +71,4 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://mytaxi/test | tail -1` ${CIRCLE_ARTIFACTS}/ | true 
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://mytaxi/test | tail -1` ${CIRCLE_ARTIFACTS}/ | true
