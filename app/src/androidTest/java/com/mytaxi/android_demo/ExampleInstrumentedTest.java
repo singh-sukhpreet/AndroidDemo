@@ -56,14 +56,9 @@ public class ExampleInstrumentedTest {
         /* onView(withId(R.id.edt_username)).perform(typeText("crazydog335"));
         onView(withId(R.id.edt_password)).perform(typeText("venture"));*/
         onView(withId(R.id.btn_login)).perform(click());
-        //Thread.sleep(5000);
+        Thread.sleep(5000);
+        onView(withId(R.id.textSearch)).perform(typeText("sa"));
 
-        try {
-            onView(withId(R.id.textSearch)).check(matches(isClickable()));
-            onView(withId(R.id.textSearch)).perform(typeText("sa"));
-        } catch (AssertionFailedError e) {
-            Log.i("View is not Present","View is not Visible");
-        }
 
 
 
