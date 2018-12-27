@@ -1,40 +1,33 @@
 package com.mytaxi.android_demo;
 
-import android.support.test.espresso.ViewAssertion;
-import android.support.test.espresso.matcher.RootMatchers;
-import android.support.test.filters.SdkSuppress;
+// android import statements
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-
+import static android.support.test.InstrumentationRegistry.getContext;
 import com.mytaxi.android_demo.activities.MainActivity;
-
-import junit.framework.AssertionFailedError;
-
-import org.junit.After;
+// junit import statements
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static android.support.test.InstrumentationRegistry.getContext;
+// espresso import statements
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import android.support.test.espresso.matcher.RootMatchers;
 
 /**
  * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-@SdkSuppress(minSdkVersion = 15)
+
 public class ExampleInstrumentedTest {
+    private String[] loginData;
+    private String textToSearch;
+    private String selectedDriver;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
@@ -42,38 +35,31 @@ public class ExampleInstrumentedTest {
 
 
     @Before
-    public void setUp() {
-        //Before Test case execution
+    public void setUp() throws InterruptedException {
+        // initializing instance of userInfo and loginData array
+        UserInfo credentials = new UserInfo(getContext());
+        loginData= credentials.getLoginDetails();
+        Thread.sleep(3000);
+
     }
 
     @Test
+    // to login into the App
     public void login() throws InterruptedException {
-        UserInfo details = new UserInfo(getContext());
-        String loginData[] = details.getLoginDetails();
-        Thread.sleep(5000);
-        onView(withId(R.id.edt_username)).perform(typeText(loginData[0]), closeSoftKeyboard());
+        onView(withId(R.id.edt_username)).perform(typeText(loginData[0]));
         onView(withId(R.id.edt_password)).perform(typeText(loginData[1]), closeSoftKeyboard());
-        /* onView(withId(R.id.edt_username)).perform(typeText("crazydog335"));
-        onView(withId(R.id.edt_password)).perform(typeText("venture"));*/
         onView(withId(R.id.btn_login)).perform(click());
-        Thread.sleep(5000);
-        onView(withId(R.id.textSearch)).perform(typeText("sa"));
+        textToSearch="sa";
+        selectedDriver="Sarah Scott";
 
-
-
-
-        //Thread.sleep(5000);
-        //onView(withText("Sarah Scott")).perform(click());
-        onView(withText("Sarah Scott")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-
-        //Thread.sleep(5000);
-        onView(withId(R.id.fab)).perform(click());
-        //Thread.sleep(5000);
-
+        // searching text and selecteing driver by name
+        searchingDriver(textToSearch, selectedDriver);
     }
 
-    @After
-    public void tearDown() {
-        //After Test case Execution
+  private void searchingDriver(String textToSearch, String selectedDriver) throws InterruptedException {
+        Thread.sleep(2000);
+        onView(withId(R.id.textSearch)).perform(typeText(textToSearch),closeSoftKeyboard());
+        onView(withText(selectedDriver)).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onView(withId(R.id.fab)).perform(click());
     }
 }
