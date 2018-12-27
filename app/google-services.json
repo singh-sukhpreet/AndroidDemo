@@ -5,7 +5,6 @@
     "project_id": "mytaxi-d1a27",
     "storage_bucket": "mytaxi-d1a27.appspot.com"
   },
-
   "client": [
     {
       "client_info": {
